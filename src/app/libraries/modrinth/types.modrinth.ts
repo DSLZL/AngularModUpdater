@@ -1,6 +1,6 @@
 import {Loader} from "../../services/loader.service";
 
-export interface Version {
+export interface ModrinthVersion {
   name: string,
   version_number: string,
   changelog: string,
@@ -26,13 +26,13 @@ export interface Version {
   }[],
 }
 
-export interface Project {
+export interface ModrinthProject {
   slug: string,
   title: string,
   description: string,
   categories: string[],
-  client_side: Environment,
-  server_side: Environment,
+  client_side: RequirementLevel,
+  server_side: RequirementLevel,
   body: string,
   additional_categories: string[][] | null,
   issues_url: string | null,
@@ -40,6 +40,7 @@ export interface Project {
   wiki_url: string | null,
   discord_url: string | null,
   donation_urls: string[] | null,
+  project_url: string,
   project_type: ProjectType,
   downloads: number,
   icon_url: string | null,
@@ -65,7 +66,7 @@ export enum VersionType {
   Alpha = "alpha"
 }
 
-export enum Environment {
+export enum RequirementLevel {
   Required= "required",
   Optional = "optional",
   Unsupported = "unsupported"
@@ -86,6 +87,76 @@ export enum Status {
   Archived = "archived",
   Processing = "processing",
   Unknown = "unknown",
+}
+
+export interface Modpack {
+  formatVersion: number;
+  game: string;
+  name: string;
+  versionId: string;
+  dependencies: { [key: string]: string };
+  files: Array<{
+    name: string;
+    path: string;
+    hashes: { [algorithm: string]: string };
+    downloads: string[];
+    env: {
+      client: RequirementLevel;
+      server: RequirementLevel;
+    };
+    fileSize: number;
+  }>;
+}
+
+export enum ProjectType {
+  MOD = 'mod',
+  MODPACK = 'modpack',
+  RESOURCEPACK = 'resourcepack',
+  SHADER = 'shader',
+}
+
+export enum IndexerSort {
+  RELEVANCE = 'relevance',
+  DOWNLOADS = 'downloads',
+  FOLLOWS = 'follows',
+  NEWEST = 'newest',
+  UPDATED = 'updated',
+  FEATURED = 'featured',
+}
+
+export interface SearchProjectsParams {
+  query: string;
+  limit?: number;
+  offset?: number;
+  facets?: string[][];
+  index?: IndexerSort;
+  versions?: string[];
+  license?: string;
+  project_type?: ProjectType;
+  categories?: string[];
+  client_side?: 'optional' | 'required' | 'unsupported' | 'unknown';
+  server_side?: 'optional' | 'required' | 'unsupported' | 'unknown';
+  featured?: boolean;
+}
+
+export interface SearchResult {
+  hits: {
+    project_id: string;
+    slug: string;
+    title: string;
+    description: string;
+    categories: string[];
+    client_side: string;
+    server_side: string;
+    versions: string[];
+    downloads: number;
+    follows: number;
+    icon_url?: string;
+    // Include other relevant fields as per Modrinth's API response
+  }[];
+  total_hits: number;
+  offset: number;
+  limit: number;
 }
 
 export interface AnnotatedError {error: any}
