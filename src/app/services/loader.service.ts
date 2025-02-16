@@ -20,5 +20,7 @@ export class LoaderService {
 export enum Loader {
   fabric = 'Fabric',
   quilt = 'Quilt',
-  forge = 'Forge'
+  forge = 'Forge',
+  neoforge = 'NeoForge',
+
 }

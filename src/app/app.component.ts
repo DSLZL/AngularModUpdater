@@ -3,12 +3,13 @@ import {FilesService} from "./services/files.service";
 import {VersionsService} from "./services/versions.service";
 import {LoaderService} from "./services/loader.service";
 import { Meta, Title } from '@angular/platform-browser';
+import {CurseforgeSupportService} from "./services/curseforgeSupport.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [FilesService, VersionsService, LoaderService]
+  providers: [FilesService, VersionsService, LoaderService, CurseforgeSupportService]
 })
 export class AppComponent implements OnInit {
   title = 'Minecraft Mod Updater';
@@ -18,9 +19,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle(this.title);
     this.meta.addTags([
-      {name: 'description', content: 'An easy-to-use config-free online Minecraft mod updater for Fabric, Forge and Quilt'},
-      {name: 'author', content: 'Simon Felix Conrad'},
-      {name: 'keywords', content: 'Minecraft, Mod Updater, Migration, Loader, Downgrade, Update, Modrinth, IsAvaible, Easy, Online, Fabric, Forge, Quilt, Simple'}
+
     ]);
   }
 
